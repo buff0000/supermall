@@ -1,0 +1,73 @@
+<template>
+  <div class="tab-bar-item" @click="itemClick">
+    <div v-if="!isActive">
+      <slot name="item-icon"></slot>
+    </div>
+    <div v-else>
+      <slot name="item-icon-active"></slot>
+    </div>
+    <!-- <div :class="{ active: isActive }"> -->
+    <div :style="activeStyle">
+      <slot name="item-text"></slot>
+    </div>
+  </div>
+</template>
+<script>
+//import { useRouter } from "vue-router";
+export default {
+  setup() {
+    //   const router = useRouter()
+    //   const toHome = (()=>{
+    //       router.push({
+    //           name: 'home'
+    //       })
+    //   })
+    //   return {
+    //       toHome
+    //   }
+  },
+  name: "TabBarItem",
+  props: {
+    path: String,
+    activeColor: {
+        type: String,
+        default: 'red'
+    }
+  },
+  date() {
+    return {
+      isActive: true,
+    };
+  },
+  computed: {
+    isActive(){
+        return this.$route.path.indexOf(this.path) !== -1
+    },
+    activeStyle(){
+        return this.isActive ? {color:this.activeColor} : {}
+    }
+  },
+  methods: {
+    itemClick() {
+      this.$router.replace(this.path);
+    },
+  },
+};
+</script>
+<!-- <style scoped> .tab-bar-item img 不起作用-->
+<style>
+.tab-bar-item {
+  flex: 1;
+  text-align: center;
+  height: 49px;
+  font-size: 14px;
+}
+
+.tab-bar-item img {
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  vertical-align: middle;
+  margin-bottom: 1px;
+}
+</style>
